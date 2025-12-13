@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Grand Celebration 🥂</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center justify-content-center">
+
+    <div class="bg-elements position-fixed w-100 h-100 top-0 start-0">
+        <div class="circle c1"></div>
+        <div class="circle c2"></div>
+        <div class="circle c3"></div>
+    </div>
+
+    <div class="gift-container text-center position-relative z-3" id="giftContainer">
+        <h1 class="instruction-text mb-5">A Special Moment Awaits...</h1>
+        
+        <div class="gift-box mx-auto" id="giftBox">
+            <div class="lid"><div class="ribbon-bow"></div></div>
+            <div class="box-body">
+                <div class="ribbon-vertical"></div>
+                <div class="ribbon-horizontal"></div>
+            </div>
+        </div>
+        
+        <p class="click-instruction mt-4 text-uppercase fw-light">Tap to Unwrap</p>
+    </div>
+
+    <div class="celebration-container d-none fixed-top w-100 h-100 align-items-center justify-content-center z-3 p-3" id="celebrationContainer">
+        
+        <div class="glass-card container p-4 p-md-5 text-center position-relative" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+            
+            <div class="card-header mb-4">
+                <span class="sub-text d-block text-warning small fw-bold letter-spacing-2">Celebrating You</span>
+                <h1 class="bday-text display-4 fw-bold my-2">Happy Birthday</h1>
+                <h2 class="name-text display-1 text-warning">Bellendaa!</h2>
+            </div>
+            
+            <p class="message lead mb-4 text-white-50">
+                Here’s to another year of creating beautiful memories together. May your day be filled with joy, laughter, and magic.
+            </p>
+            
+            <div class="gallery d-flex justify-content-center flex-wrap gap-3 mb-4">
+                <div class="photo-frame bg-white shadow-sm"><img src="images/1.jpg" alt="Memory" class="img-fluid"></div>
+                <div class="photo-frame bg-white shadow-sm"><img src="images/2.jpg" alt="Memory" class="img-fluid"></div>
+                <div class="photo-frame bg-white shadow-sm"><img src="images/3.jpg" alt="Memory" class="img-fluid"></div>
+            </div>
+
+            <button id="musicBtn" class="music-btn btn rounded-pill px-4 py-2 fw-bold shadow">🎶 Play Music</button>
+            
+            <audio id="bgMusic">
+                <source src="music.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas" class="position-fixed top-0 start-0 w-100 h-100 pe-none z-index-1"></canvas>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
