@@ -20,7 +20,7 @@
     </div>
 
     <div class="gift-container text-center position-relative z-3" id="giftContainer">
-        <h1 class="instruction-text mb-5">A Special Moment Awaits...</h1>
+        <h1 class="instruction-text mb-5">Open Your Gift...</h1>
         
         <div class="gift-box mx-auto" id="giftBox">
             <div class="lid"><div class="ribbon-bow"></div></div>
@@ -30,7 +30,7 @@
             </div>
         </div>
         
-        <p class="click-instruction mt-4 text-uppercase fw-light">Tap to Unwrap</p>
+        <p class="click-instruction mt-4 text-uppercase fw-light">Tap to Open</p>
     </div>
 
     <div class="celebration-container d-none fixed-top w-100 h-100 align-items-center justify-content-center z-3 p-3" id="celebrationContainer">
@@ -48,16 +48,29 @@
             </p>
             
             <div class="gallery d-flex justify-content-center flex-wrap gap-3 mb-4">
-                <div class="photo-frame bg-white shadow-sm"><img src="images/1.jpg" alt="Memory" class="img-fluid"></div>
-                <div class="photo-frame bg-white shadow-sm"><img src="images/2.jpg" alt="Memory" class="img-fluid"></div>
-                <div class="photo-frame bg-white shadow-sm"><img src="images/3.jpg" alt="Memory" class="img-fluid"></div>
+                <div class="photo-frame bg-white shadow-sm" role="button" tabindex="0" aria-label="Open photo 1" data-caption="Happy birthday, Bellendaa!"><img src="images/5.jpg" alt="Memory" class="img-fluid" loading="lazy"></div>
+                <div class="photo-frame bg-white shadow-sm" role="button" tabindex="0" aria-label="Open photo 2" data-caption="Wishing you bright days ahead."><img src="images/6.jpeg" alt="Memory" class="img-fluid" loading="lazy"></div>
+                <div class="photo-frame bg-white shadow-sm" role="button" tabindex="0" aria-label="Open photo 3" data-caption="Cheers to our favorite memories."><img src="images/2.jpg" alt="Memory" class="img-fluid" loading="lazy"></div>
+                <div class="photo-frame bg-white shadow-sm" role="button" tabindex="0" aria-label="Open photo 4" data-caption="May your year be full of laughter."><img src="images/3.jpg" alt="Memory" class="img-fluid" loading="lazy"></div>
+                <div class="photo-frame bg-white shadow-sm" role="button" tabindex="0" aria-label="Open photo 5" data-caption="To more adventures together."><img src="images/4.jpg" alt="Memory" class="img-fluid" loading="lazy"></div>
             </div>
-
             <button id="musicBtn" class="music-btn btn rounded-pill px-4 py-2 fw-bold shadow">🎶 Play Music</button>
             
             <audio id="bgMusic">
                 <source src="music.mp3" type="audio/mpeg">
             </audio>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="photoModal" aria-hidden="true">
+        <div class="photo-modal" role="dialog" aria-modal="true" aria-label="Photo viewer">
+            <button class="modal-close" id="modalClose" type="button" aria-label="Close photo">×</button>
+            <button class="modal-nav prev" id="modalPrev" type="button" aria-label="Previous photo">‹</button>
+            <div class="modal-image-wrap">
+                <img id="modalImage" class="modal-image" src="" alt="Memory">
+            </div>
+            <p id="modalCaption" class="modal-caption"></p>
+            <button class="modal-nav next" id="modalNext" type="button" aria-label="Next photo">›</button>
         </div>
     </div>
 

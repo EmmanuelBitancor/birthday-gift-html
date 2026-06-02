@@ -4,9 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const celebrationContainer = document.getElementById('celebrationContainer');
     const musicBtn = document.getElementById('musicBtn');
     const bgMusic = document.getElementById('bgMusic');
+    const gallery = document.querySelector('.gallery');
+    const photoFrames = Array.from(document.querySelectorAll('.photo-frame'));
+    const photoModal = document.getElementById('photoModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const modalPrev = document.getElementById('modalPrev');
+    const modalNext = document.getElementById('modalNext');
+    const modalClose = document.getElementById('modalClose');
 
     let confettiFrameId = null;
     let balloonIntervalId = null;
+    let currentPhotoIndex = 0;
+    let lastFocusedFrame = null;
 
     // Theme Colors for Balloons
     const balloonColors = ['#ab47bc', '#A91079', '#FF8E53', '#FF6B6B', '#8e24aa'];
@@ -70,6 +80,44 @@ document.addEventListener('DOMContentLoaded', () => {
         if (balloonIntervalId) clearInterval(balloonIntervalId);
     }
 
+    function updateModalImage() {
+        const targetFrame = photoFrames[currentPhotoIndex];
+        const targetImage = targetFrame?.querySelector('img');
+        if (!targetImage || !modalImage) return;
+        modalImage.src = targetImage.src;
+        modalImage.alt = targetImage.alt || 'Memory';
+        if (modalCaption) {
+            modalCaption.textContent = targetFrame?.dataset.caption || '';
+        }
+    }
+
+    function openModal(index) {
+        if (!photoModal) return;
+        currentPhotoIndex = index;
+        updateModalImage();
+        photoModal.classList.add('is-open');
+        photoModal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+        if (!photoModal) return;
+        photoModal.classList.remove('is-open');
+        photoModal.setAttribute('aria-hidden', 'true');
+        if (lastFocusedFrame) lastFocusedFrame.focus();
+    }
+
+    function showNextPhoto() {
+        if (!photoFrames.length) return;
+        currentPhotoIndex = (currentPhotoIndex + 1) % photoFrames.length;
+        updateModalImage();
+    }
+
+    function showPrevPhoto() {
+        if (!photoFrames.length) return;
+        currentPhotoIndex = (currentPhotoIndex - 1 + photoFrames.length) % photoFrames.length;
+        updateModalImage();
+    }
+
     // --- 3. EVENT LISTENERS ---
 
     // START effects when music plays
@@ -100,6 +148,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Gallery Modal
+    photoFrames.forEach((frame, index) => {
+        frame.addEventListener('click', () => {
+            lastFocusedFrame = frame;
+            openModal(index);
+        });
+        frame.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                lastFocusedFrame = frame;
+                openModal(index);
+            }
+        });
+    });
+
+    if (modalPrev && modalNext && modalClose && photoModal) {
+        modalPrev.addEventListener('click', (event) => {
+            event.stopPropagation();
+            showPrevPhoto();
+        });
+        modalNext.addEventListener('click', (event) => {
+            event.stopPropagation();
+            showNextPhoto();
+        });
+        modalClose.addEventListener('click', closeModal);
+        photoModal.addEventListener('click', (event) => {
+            if (event.target === photoModal) closeModal();
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (!photoModal || !photoModal.classList.contains('is-open')) return;
+        if (event.key === 'Escape') closeModal();
+        if (event.key === 'ArrowRight') showNextPhoto();
+        if (event.key === 'ArrowLeft') showPrevPhoto();
+    });
+
     // Gift Box Click Sequence
     giftBox.addEventListener('click', () => {
         giftBox.classList.add('box-open');
@@ -108,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             giftContainer.classList.add('d-none');
             celebrationContainer.classList.remove('d-none');
             celebrationContainer.classList.add('d-flex');
+            if (gallery) gallery.classList.add('is-visible');
             
             // Trigger Music (which triggers effects)
             bgMusic.volume = 0.5;

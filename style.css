@@ -144,11 +144,24 @@ body::after {
 }
 
 /* Photo Frames */
-.photo-frame { padding: 10px 10px 30px 10px; transform: rotate(-3deg); transition: all 0.4s ease; cursor: pointer; }
+.photo-frame {
+    --frame-rotation: -3deg;
+    --frame-offset-y: 0px;
+    --frame-delay: 0s;
+    padding: 10px 10px 30px 10px;
+    opacity: 0;
+    transform: translateY(calc(16px + var(--frame-offset-y))) rotate(var(--frame-rotation));
+    transition: transform 0.4s ease;
+    cursor: pointer;
+    will-change: transform, opacity;
+}
+.gallery.is-visible .photo-frame { animation: frameFadeIn 0.7s ease forwards; animation-delay: var(--frame-delay); }
 .photo-frame img { width: 120px; height: 120px; object-fit: cover; }
-.photo-frame:nth-child(1) { transform: rotate(-5deg); }
-.photo-frame:nth-child(2) { transform: rotate(3deg) translateY(-10px); }
-.photo-frame:nth-child(3) { transform: rotate(-4deg); }
+.photo-frame:nth-child(1) { --frame-rotation: -5deg; --frame-delay: 0s; }
+.photo-frame:nth-child(2) { --frame-rotation: 3deg; --frame-offset-y: -10px; --frame-delay: 0.1s; }
+.photo-frame:nth-child(3) { --frame-rotation: -4deg; --frame-delay: 0.2s; }
+.photo-frame:nth-child(4) { --frame-rotation: 4deg; --frame-offset-y: 6px; --frame-delay: 0.3s; }
+.photo-frame:nth-child(5) { --frame-rotation: -2deg; --frame-offset-y: -6px; --frame-delay: 0.4s; }
 .photo-frame:hover { transform: scale(1.15) rotate(0deg) !important; z-index: 10; }
 
 /* Button */
@@ -158,6 +171,75 @@ body::after {
 /* Animations */
 @keyframes popup { to { opacity: 1; transform: scale(1); } }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes frameFadeIn { to { opacity: 1; transform: translateY(var(--frame-offset-y)) rotate(var(--frame-rotation)); } }
+
+/* Photo Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 4, 20, 0.75);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 20;
+}
+.modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+.photo-modal {
+    position: relative;
+    padding: 30px 70px;
+    border-radius: 22px;
+    background: rgba(28, 8, 52, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    max-width: 90vw;
+    max-height: 85vh;
+}
+.modal-image-wrap { max-width: 80vw; max-height: 70vh; }
+.modal-image {
+    display: block;
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+}
+.modal-caption {
+    margin: 18px 0 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.3px;
+}
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--sunset-pink), var(--sunset-orange));
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+.modal-nav:hover { transform: translateY(-50%) scale(1.05); }
+.modal-nav.prev { left: 14px; }
+.modal-nav.next { right: 14px; }
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    background: rgba(255, 255, 255, 0.15);
+}
+.modal-close:hover { background: rgba(255, 255, 255, 0.25); }
 
 /* Transparent Scrollbar */
 .glass-card::-webkit-scrollbar { width: 6px; }
@@ -170,6 +252,26 @@ body::after {
     .gift-box { transform: scale(0.8); }
     .photo-frame img { width: 90px; height: 90px; }
     .name-text { font-size: 3rem; }
+    .photo-modal {
+        width: 92vw;
+        max-height: 88vh;
+        padding: 16px 16px 72px;
+        border-radius: 18px;
+    }
+    .modal-image-wrap { max-width: 100%; max-height: 58vh; }
+    .modal-image { max-width: 100%; max-height: 58vh; }
+    .modal-caption { font-size: 0.95rem; margin: 12px 0 0; }
+    .modal-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 1.25rem;
+        top: auto;
+        bottom: 14px;
+        transform: none;
+    }
+    .modal-nav.prev { left: 14px; }
+    .modal-nav.next { right: 14px; }
+    .modal-close { width: 32px; height: 32px; font-size: 1.2rem; }
 }
 
 /* ========================================= */
